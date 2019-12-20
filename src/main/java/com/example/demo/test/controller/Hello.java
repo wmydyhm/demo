@@ -11,6 +11,6 @@ public class Hello {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @ResponseBody
     public String sayHello(){
-        return "hello world 66896";
+        return "hello world 66896  20191220";
     }
 }
