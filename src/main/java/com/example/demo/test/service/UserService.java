@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
    public List<User> findAll(String name);
+   public List<User> findAllP(String name, Pageable Pageable);
 
    List<User> listPage(String name, Pageable pageable);
 

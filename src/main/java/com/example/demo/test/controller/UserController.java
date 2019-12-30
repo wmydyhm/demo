@@ -6,10 +6,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userServiceImpl;
+
 
     @ApiOperation(value = "查询全部", notes = "无条件查询全部用户")
     @ApiImplicitParam(name = "name", value = "名称", paramType = "query ", dataType = "String" )
@@ -48,7 +50,6 @@ public class UserController {
         return list;
     }
 
-
     @ApiOperation(value = "测试接收参数", notes = "测试接收参数")
     @ApiImplicitParam(name = "test", value = "body", paramType = "query ", dataType = "String" )
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -62,5 +63,17 @@ public class UserController {
             String array = userList.get(i).getArray().toString();
             System.out.println("array = " + array);
         }
+    }
+
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(i);
+        }
+        System.out.println("end");
+
+        String s = "";
+        StringUtils.isBlank("");
+        StringUtils.isEmpty("");
     }
 }
