@@ -6,13 +6,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = "用户接口描述")
 @Controller
@@ -20,7 +20,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserServiceImpl userServiceImpl;
+    private UserServiceImpl userServiceImpl;
 
 
     @ApiOperation(value = "查询全部", notes = "无条件查询全部用户")
@@ -59,21 +59,44 @@ public class UserController {
             System.out.println(userList.get(i));
             String param = userList.get(i).getMsg().toString();
             System.out.println("param = " + param);
-            
+
             String array = userList.get(i).getArray().toString();
             System.out.println("array = " + array);
         }
     }
 
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(i);
-        }
-        System.out.println("end");
+    /**
+     *
+     * @param test
+     * @return
+     */
+    public String getValue(@RequestParam(name = "test") String test){
+        return null;
+    }
 
-        String s = "";
-        StringUtils.isBlank("");
-        StringUtils.isEmpty("");
+
+    @ApiOperation(value="对象的部分属性重新转换为集合", notes = "")
+    @RequestMapping(value = "/objectToCollection", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> objectToCollection() throws Exception{
+       List<String> lis = userServiceImpl.testColl();
+        List<String> duplicateElements  = getDuplicateElements(lis);
+        System.out.println("duplicateElements:" + duplicateElements);
+//       JSONObject json = new JSONObject();
+//       json.put("list","test");
+//        if(lis.size() > 0){
+//            throw new Exception(json.toString());
+//        }
+       return lis;
+    }
+
+
+    public static <E> List<E> getDuplicateElements(List<E> list) {
+        return list.stream() // list 对应的 Stream
+                .collect(Collectors.toMap(e -> e, e -> 1, (a, b) -> a + b)) // 获得元素出现频率的 Map，键为元素，值为元素出现的次数
+                .entrySet().stream() // 所有 entry 对应的 Stream
+                .filter(entry -> entry.getValue() > 1) // 过滤出元素出现次数大于 1 的 entry
+                .map(entry -> entry.getKey()) // 获得 entry 的键（重复元素）对应的 Stream
+                .collect(Collectors.toList());  // 转化为 List
     }
 }

@@ -6,9 +6,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface UserService {
-   public List<User> findAll(String name);
-   public List<User> findAllP(String name, Pageable Pageable);
-
-   List<User> listPage(String name, Pageable pageable);
+    List<User> findAll(String name);
+    List<User> listPage(String name, Pageable pageable);
+    List<String> testColl();
 
 }
